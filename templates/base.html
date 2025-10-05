@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Inventory App</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top left, #e0f7fa, #fdfbfb, #ffffff);
+      overflow-x: hidden;
+      min-height: 100vh;
+      color: #333;
+      position: relative;
+      padding-top: 80px; /* navbar space */
+    }
+
+    /* Background Animation */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 250%;
+      height: 250%;
+      top: -100%;
+      left: -100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2) 10%, transparent 10%) repeat;
+      background-size: 60px 60px;
+      animation: moveBackground 15s linear infinite;
+      z-index: 0;
+      opacity: 0.3;
+    }
+    @keyframes moveBackground {
+      from { transform: translate(0, 0); }
+      to { transform: translate(60px, 60px); }
+    }
+
+    /* ---------- Navbar ---------- */
+    .navbar {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    .navbar-brand {
+      font-weight: 700;
+      color: #0056d2 !important;
+      letter-spacing: 0.5px;
+      animation: fadeInDown 0.8s ease;
+    }
+    .navbar-nav .nav-link {
+      color: #003366 !important;
+      font-weight: 500;
+      margin: 0 10px;
+      border-radius: 8px;
+      padding: 8px 14px;
+      transition: all 0.3s ease;
+    }
+
+    /* Mild gradient (same tone as content-box/table) */
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
+      background: linear-gradient(90deg, #e3f2fd, #bbdefb); /* soft gradient */
+      color: #003366 !important;
+      box-shadow: 0 4px 12px rgba(100, 181, 246, 0.3);
+    }
+
+    /* ---------- Main Content ---------- */
+    .main-content {
+      padding: 40px;
+      z-index: 5;
+      animation: fadeInUp 1s ease;
+    }
+
+    /* ---------- Content Box ---------- */
+    .content-box {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      animation: floatIn 0.9s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .content-box:hover {
+      transform: scale(1.01);
+      box-shadow: 0 10px 35px rgba(0, 118, 255, 0.15);
+    }
+
+    /* ---------- Flash messages ---------- */
+    .alert {
+      border-radius: 12px;
+      animation: fadeIn 0.6s ease-in-out;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    /* ---------- Footer ---------- */
+    footer {
+      text-align: center;
+      padding: 20px 0;
+      margin-top: 40px;
+      color: #555;
+      font-size: 0.9rem;
+      animation: fadeIn 1.5s ease;
+    }
+    footer span {
+      color: #007bff;
+      font-weight: 600;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes floatIn {
+      0% { opacity: 0; transform: scale(0.95) translateY(30px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+  </style>
+
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/a2d9d6a0c4.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#"><i class="fa-solid fa-boxes-stacked"></i> InventoryApp</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse animate__animated animate__fadeInDown" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a href="{{ url_for('products') }}" class="nav-link {% if active_page=='products' %}active{% endif %}"><i class="fa-solid fa-cube"></i> Products</a></li>
+          <li class="nav-item"><a href="{{ url_for('locations') }}" class="nav-link {% if active_page=='locations' %}active{% endif %}"><i class="fa-solid fa-location-dot"></i> Locations</a></li>
+          <li class="nav-item"><a href="{{ url_for('movements') }}" class="nav-link {% if active_page=='movements' %}active{% endif %}"><i class="fa-solid fa-arrows-left-right"></i> Movements</a></li>
+          <li class="nav-item"><a href="{{ url_for('report') }}" class="nav-link {% if active_page=='report' %}active{% endif %}"><i class="fa-solid fa-chart-line"></i> Reports</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="content-box">
+      {% block content %}
+      <!-- Dynamic Page Content -->
+      {% endblock %}
+    </div>
+
+    <footer>
+      <p>Made with 💙 by <span>Manikandan</span> © {{ current_year or '2025' }}</p>
+    </footer>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

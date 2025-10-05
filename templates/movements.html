@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif !important;
+    background-color: #f8f9fc;
+    font-size: 15px;
+  }
+
+  h2 {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  .card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    padding: 20px;
+    margin-bottom: 25px;
+  }
+
+  .form-control, select, input[type="number"] {
+    font-size: 14px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    padding: 6px 10px;
+  }
+
+  .btn {
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-success {
+    background-color: #009688;
+    border-color: #009688;
+  }
+
+  .btn-success:hover {
+    background-color: #00695c;
+    border-color: #00695c;
+  }
+
+  .btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+
+  .btn-danger:hover {
+    background-color: #b02a37;
+    border-color: #b02a37;
+  }
+
+  /* ==== Table Styling (Purple Theme like Products) ==== */
+  .table {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+  }
+
+  thead th {
+    font-weight: 600;
+    background-color: #9a561bff; /* Deep Purple */
+    color: #fff;
+    text-align: center;
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  tbody td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 10px;
+    background-color: #ffffff;
+  }
+
+  /* Striped rows (light purple) */
+  tbody tr:nth-child(odd) td {
+    background-color: #f3e5f5; /* Light purple shade */
+  }
+
+  /* Hover effect */
+  tbody tr:hover td {
+    background-color: #ede7f6; /* Softer purple on hover */
+    transition: all 0.25s ease-in-out;
+  }
+
+  .flash-message {
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 14px;
+  }
+
+  .flash-message.success {
+    background: #4caf50;
+  }
+
+  .flash-message.danger {
+    background: #f44336;
+  }
+
+  .row.g-3 > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+</style>
+
+<h2>Product Movements</h2>
+
+<!-- Flash Messages -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="flash-message {{ category }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<!-- Movements Table Card -->
+<div class="card table-responsive">
+  <!-- Add Movement Form -->
+  <form method="POST" action="{{ url_for('add_movement') }}" class="row g-3 mb-3">
+    <div class="col-md-3">
+      <select name="product_id" class="form-control" required>
+        <option value="">Select Product</option>
+        {% for product in products %}
+          <option value="{{ product.product_id }}">{{ product.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select name="from_location" class="form-control">
+        <option value="">From Location</option>
+        {% for loc in locations %}
+          <option value="{{ loc.location_id }}">{{ loc.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-3">
+      <select name="to_location" class="form-control">
+        <option value="">To Location</option>
+        {% for loc in locations %}
+          <option value="{{ loc.location_id }}">{{ loc.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2">
+      <input type="number" name="qty" class="form-control" placeholder="Quantity" min="1" required>
+    </div>
+
+    <div class="col-md-1 d-flex align-items-end">
+      <button type="submit" class="btn btn-success w-100">Add</button>
+    </div>
+  </form>
+
+  <!-- Movements Table -->
+  <table class="table table-bordered align-middle">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Product</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Quantity</th>
+        <th>Timestamp</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for move in movements %}
+      <tr>
+        <td>{{ move.movement_id }}</td>
+        <td>{{ move.product.name }}</td>
+        <td>{{ move.from_loc.name if move.from_loc else '-' }}</td>
+        <td>{{ move.to_loc.name if move.to_loc else '-' }}</td>
+        <td>{{ move.qty }}</td>
+        <td>{{ move.timestamp.strftime("%Y-%m-%d %H:%M") }}</td>
+        <td>
+          <a href="{{ url_for('delete_movement', movement_id=move.movement_id) }}"
+             class="btn btn-danger btn-sm"
+             onclick="return confirm('Are you sure you want to delete this movement?');">
+            Delete
+          </a>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7" class="text-center text-muted py-3">
+          No movements found. Add a new one above!
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>  
+
+{% endblock %}
