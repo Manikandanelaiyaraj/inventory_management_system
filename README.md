@@ -90,7 +90,7 @@ python app.py
 ![Product](product_view.png)
 
 ## Product Add
-![Product Add](Produdct_add.png)
+![Product Add](Product_add.png)
 
 ## Location view
 ![Location](Location_view.png)
