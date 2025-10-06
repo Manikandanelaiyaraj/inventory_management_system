@@ -4,7 +4,7 @@ from sqlalchemy import func
 from flask import jsonify
 import uuid
 from datetime import datetime
-
+import os
 
 app = Flask(__name__)
 app.secret_key = "secret123"
@@ -178,4 +178,6 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0",port=port)
+
