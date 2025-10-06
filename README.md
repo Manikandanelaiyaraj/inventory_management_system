@@ -102,7 +102,7 @@ python app.py
 ![Movemnets](product_movement_view.png)
 
 ##  Product Movement Add
-![Movement Add](prodcut_movement_add.png)
+![Movement Add](product_movement_add.png)
 
 ### Reports
 ![Reports](movement_report.png)
