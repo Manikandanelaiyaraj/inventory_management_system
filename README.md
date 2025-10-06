@@ -20,7 +20,7 @@ This application allows businesses to efficiently track products across multiple
 - [Screenshots](#screenshots)  
 - [Project Architecture](#project-architecture)  
 - [Contributing](#contributing)  
-- [License](#license)
+
 
 ---
 
