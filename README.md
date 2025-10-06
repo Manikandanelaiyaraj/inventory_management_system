@@ -56,7 +56,6 @@ cd Inventory_Management_System
 
 2. ## Create a virtual environment and activate it:
 
-
 bash
 python -m venv myenv
 # Windows
@@ -64,13 +63,10 @@ myenv\Scripts\activate
 # macOS/Linux
 source myenv/bin/activate
 
-
 3. ## Install dependencies:
-
 
 bash
 pip install -r requirements.txt
-
 
 4. ## Run the application
 
@@ -91,25 +87,25 @@ python app.py
 ![Dashboard](Dashboard.png)
 
 ### Product page
-![Product](Product_view.png)
+![Product](product_view.png)
 
 ## Product Add
-![Product Add](Produdct_adding.png)
+![Product Add](Produdct_add.png)
 
 ## Location view
 ![Location](Location_view.png)
 
 ## Location Add
-![Location Add](Location_adding.png)
+![Location Add](Location_add.png)
 
 ## Prodcut Movement View
-![Movemnets](Product_movement.png)
+![Movemnets](product_movement_view.png)
 
 ##  Product Movement Add
-![Movement Add](Prodcut_movement_adding.png)
+![Movement Add](prodcut_movement_add.png)
 
 ### Reports
-![Reports](Movement_report.png)
+![Reports](movement_report.png)
 
 ## Contributing 
 
